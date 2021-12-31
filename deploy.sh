@@ -18,8 +18,8 @@ echo "Current version backed up"
 echo "Getting latest version..."
 
 # Download latest version from git
-git clone git@github.com-hunterx-php:madmax330/hunterx-php.git /home/ubuntu/hunterx-php
-sudo mv /home/ubuntu/hunterx-php /var/www
+git clone git@github.com-hunterx-php:madmax330/hunterx-php.git /root/hunterx-php
+sudo mv /root/hunterx-php /var/www
 
 echo "Latest version installed"
 echo "Restarting apache"
@@ -29,4 +29,4 @@ sudo systemctl start apache2
 echo "Apache restarted"
 echo "All done!"
 
-sudo mv /var/www/hunterx-php/scripts/deploy.sh /home/ubuntu/deploy.sh
+sudo mv /var/www/hunterx-php/scripts/deploy.sh /root/deploy.sh
