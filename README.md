@@ -1,2 +1,2 @@
 # hunterx-php
-Hunterx PHP api
+This repo makes the hunterx-scraper data available via a json api

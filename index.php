@@ -3,7 +3,6 @@
 try {
     $DB_CONNECTION = new PDO('sqlite:/data/hunter.db');
     $DB_CONNECTION->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 } catch (PDOException $e) {
     print_message('Error connecting to the database'.$e->getMessage(), 500);
 }
@@ -68,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         // Print json results
         print_message(json_encode($response));
-
     } else if ($command === 'list') {
         // Query the database
         $query = $DB_CONNECTION->prepare('SELECT i.symbol, i.offerDate, i.offerPrice, c.name, c.industry, c.sector FROM ipos as i LEFT JOIN companies as c ON i.symbol = c.symbol;');
