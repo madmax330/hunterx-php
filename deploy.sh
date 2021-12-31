@@ -29,4 +29,4 @@ sudo systemctl start apache2
 echo "Apache restarted"
 echo "All done!"
 
-sudo mv /var/www/hunterx-php/scripts/deploy.sh /root/deploy.sh
+sudo mv /var/www/hunterx-php/deploy.sh /root/deploy.sh
