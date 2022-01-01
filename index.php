@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: *');
+
 try {
     $DB_CONNECTION = new PDO('sqlite:/data/hunter.db');
     $DB_CONNECTION->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
