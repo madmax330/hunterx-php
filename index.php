@@ -70,6 +70,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         }
 
+        // Add analysis info
+        // Get latest price
+        $query = $DB_CONNECTION->prepare('SELECT symbol, close FROM historical ORDER BY id DESC LIMIT 1;');
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $res) {
+            $responseSymbol = $response[$res['symbol']] ?? [];
+            if ($responseSymbol) {
+                $response[$res['symbol']] = array_merge($res['symbol'], $responseSymbol);
+            }            
+        }
+
+        // Get all time results
+        $query = $DB_CONNECTION->prepare("SELECT symbol, AVG(close) as 'average', MAX(close) as 'highest', MIN(close) as 'lowest' FROM historical WHERE interval = '1d' GROUP BY symbol;");
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $res) {
+            $responseSymbol = $response[$res['symbol']] ?? [];
+            if ($responseSymbol) {
+                $response[$res['symbol']] = array_merge($res['symbol'], $responseSymbol);
+            }
+        }
+
+        // Get last year results
+        $query = $DB_CONNECTION->prepare("SELECT symbol, AVG(close) as 'average1Y', MAX(close) as 'highest1Y', MIN(close) as 'lowest1Y' FROM historical WHERE interval = '1d' AND DATE(datetime) > DATE('now', '-1 year') GROUP BY symbol;");
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $res) {
+            $responseSymbol = $response[$res['symbol']] ?? [];
+            if ($responseSymbol) {
+                $response[$res['symbol']] = array_merge($res['symbol'], $responseSymbol);
+            }
+        }
+
+        // Get last 6 months results
+        $query = $DB_CONNECTION->prepare("SELECT symbol, AVG(close) as 'average6Mo', MAX(close) as 'highest6Mo', MIN(close) as 'lowest6Mo' FROM historical WHERE interval = '1d' AND DATE(datetime) > DATE('now', '-6 months') GROUP BY symbol;");
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $res) {
+            $responseSymbol = $response[$res['symbol']] ?? [];
+            if ($responseSymbol) {
+                $response[$res['symbol']] = array_merge($res['symbol'], $responseSymbol);
+            }
+        }
+
         // Print json results
         print_message(json_encode($response));
     } else if ($command === 'list') {
